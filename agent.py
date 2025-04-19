@@ -39,7 +39,7 @@ except Exception as e:
 agent_bp = Blueprint('agent_bp', __name__)
 
 # Enable CORS for the Blueprint
-CORS(agent_bp)
+CORS(agent_bp, resources={r"/*": {"origins":"https://frontend-deployed-myu4.vercel.app"}})
 
 # State management for multi-step interactions
 user_states = {}
@@ -81,7 +81,7 @@ def chatbot():
 
                     # Call the complaint API
                     complaint_data = user_state["data"]
-                    response = requests.post('http://127.0.0.1:5000/complaint', json=complaint_data)
+                    response = requests.post('https://frontend-deployed-myu4.vercel.app/complaint', json=complaint_data)
                     if response.status_code == 201:
                         user_states[user_id] = {"state": None, "data": {}, "intent": None}  # Reset state
                         return jsonify({"response": "Your complaint has been submitted successfully!"})
@@ -104,7 +104,7 @@ def chatbot():
 
                     # Call the leave API
                     leave_data = user_state["data"]
-                    response = requests.post('http://127.0.0.1:5000/leave', json=leave_data)
+                    response = requests.post('https://frontend-deployed-myu4.vercel.app/leave', json=leave_data)
                     if response.status_code == 201:
                         user_states[user_id] = {"state": None, "data": {}, "intent": None}  # Reset state
                         return jsonify({"response": "Your leave request has been submitted successfully!"})
@@ -133,7 +133,7 @@ def chatbot():
                     print(f"Sending feedback data to /reviews: {feedback_data}")  # Debugging
 
                     try:
-                        response = requests.post('http://127.0.0.1:5000/reviews', json=feedback_data)
+                        response = requests.post('https://frontend-deployed-myu4.vercel.app/reviews', json=feedback_data)
                         print(f"Response from /reviews: {response.status_code}, {response.text}")  # Debugging
 
                         if response.status_code == 201:

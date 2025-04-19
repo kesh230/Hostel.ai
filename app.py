@@ -5,6 +5,7 @@ import os
 from flask_cors import CORS
 from config import MONGO_URI, DB_NAME, COLLECTION_REVIEW, COLLECTION_USER,COLLECTION_COMPLAINT,COLLECTION_LEAVEFORM
 from utils import get_analytics_data, get_negative_reviews
+from agent import agent_bp
 # from authlib.integrations.flask_client import OAuth
 # from flask import Flask, redirect, url_for, session, render_template
 # from flask_session import Session
@@ -13,6 +14,10 @@ from utils import get_analytics_data, get_negative_reviews
 app = Flask(__name__)
 
 CORS(app, supports_credentials=True, resources={r"/*": {"origins":"https://frontend-deployed-myu4.vercel.app"}})
+
+# Register agent blueprint
+app.register_blueprint(agent_bp)
+
 # Ensure session directory exists
 session_dir = "./flask_session"
 if not os.path.exists(session_dir):
@@ -71,10 +76,6 @@ def get_food_negative_reviews(food_item):
         "food": food_item,
         "negative_reviews": negative_reviews
     }), 200
-
-# Import and register the agent blueprint
-from agent import agent_bp
-app.register_blueprint(agent_bp)
 
 # Load sentiment model and vectorizer
 model = joblib.load(os.path.join("model", "sentiment_model.pkl"))
