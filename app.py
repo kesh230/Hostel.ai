@@ -12,7 +12,7 @@ from utils import get_analytics_data, get_negative_reviews
 
 app = Flask(__name__)
 
-CORS(app, supports_credentials=True, resources={r"/*": {"origins":"https://frontend-deployed-myu4.vercel.app/"}})
+CORS(app, supports_credentials=True, resources={r"/*": {"origins":"https://frontend-deployed-myu4.vercel.app"}})
 # Ensure session directory exists
 session_dir = "./flask_session"
 if not os.path.exists(session_dir):
